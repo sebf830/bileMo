@@ -1,0 +1,128 @@
+[
+    {
+        "name": "Galaxy s-18",
+        "description" : "Lorem ipsum",
+        "reference": "GX-800",
+        "stock": "56",
+        "category": 1
+    },
+    {
+        "name": "Galaxy s-19",
+        "description" : "Lorem ipsum",
+        "reference": "GX-850",
+        "stock": "78",
+        "category": 1
+    },
+    {
+        "name": "Samsung GT-654",
+        "description" : "Lorem ipsum",
+        "reference": "GT-654",
+        "stock": "43",
+        "category": 1
+    },
+    {
+        "name": "Galaxy PX-34",
+        "description" : "Lorem ipsum",
+        "reference": "KL-900",
+        "stock": "32",
+        "category": 1
+    },
+    {
+        "name": "Iphone 12",
+        "description" : "Lorem ipsum",
+        "reference": "KO-980",
+        "stock": "39",
+        "category": 2
+    },
+    {
+        "name": "Iphone 10",
+        "description" : "Lorem ipsum",
+        "reference": "HG-680",
+        "stock": "35",
+        "category": 2
+    },
+    {
+        "name": "Iphone 15",
+        "description" : "Lorem ipsum",
+        "reference": "RT-920",
+        "stock": "100",
+        "category": 2
+    },
+    {
+        "name": "Iphone XY",
+        "description" : "Lorem ipsum",
+        "reference": "XY-310",
+        "stock": "87",
+        "category": 2
+    },
+    {
+        "name": "Nokio 3210",
+        "description" : "Lorem ipsum",
+        "reference": "SQ-910",
+        "stock": "44",
+        "category": 3
+    },
+    {
+        "name": "LG shiny",
+        "description" : "Lorem ipsum",
+        "reference": "SG-876",
+        "stock": "49",
+        "category": 3
+    },
+    {
+        "name": "SONI X-perion",
+        "description" : "Lorem ipsum",
+        "reference": "SO-590",
+        "stock": "22",
+        "category": 3
+    },
+    {
+        "name": "SAGEM essential",
+        "description" : "Lorem ipsum",
+        "reference": "SA-259",
+        "stock": "21",
+        "category": 3
+    },
+    {
+        "name": "Nokio 3320",
+        "description" : "Lorem ipsum",
+        "reference": "KJ-564",
+        "stock": "10",
+        "category": 3
+    },
+    {
+        "name": "Samsung XTV50",
+        "description" : "Lorem ipsum",
+        "reference": "XT-864",
+        "stock": "17",
+        "category": 4
+    },
+    {
+        "name": "Xiaomi blue me note pro",
+        "description" : "Lorem ipsum",
+        "reference": "XI-364",
+        "stock": "110",
+        "category": 4
+    },
+    {
+        "name": "Huawei p-900",
+        "description" : "Lorem ipsum",
+        "reference": "HU-200",
+        "stock": "210",
+        "category": 4
+    },
+    {
+        "name": "Google pix",
+        "description" : "Lorem ipsum",
+        "reference": "PI-684",
+        "stock": "19",
+        "category": 4
+    },
+    {
+        "name": "Solana saga pro 2",
+        "description" : "Lorem ipsum",
+        "reference": "SO-440",
+        "stock": "50",
+        "category": 4
+    }
+]

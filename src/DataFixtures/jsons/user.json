@@ -1,0 +1,297 @@
+[
+    {
+        "firstname": "seb",
+        "lastname":"flouvat",
+        "username": "admin@gmail.com",
+        "roles": ["ROLE_ADMIN"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A."
+    },
+    {
+        "firstname": "Nacim",
+        "lastname":"el boustani",
+        "username": "nacimelboustani@gmail.com",
+        "roles": ["ROLE_CLIENT"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 1
+    },
+    {
+        "firstname": "Patrick",
+        "lastname":"Durant",
+        "username": "p.durant@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 1
+    },
+    {
+        "firstname": "Yvette",
+        "lastname":"Frichon",
+        "username": "yfrichon@gmx.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 1
+    },
+    {
+        "firstname": "Bernard",
+        "lastname":"Chombier",
+        "username": "pchombier@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 1
+    },
+    {
+        "firstname": "Sandra",
+        "lastname":"Dufour",
+        "username": "holasandra@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 2
+    },
+    {
+        "firstname": "Monique",
+        "lastname":"vallon",
+        "username": "vallon@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 2
+    },
+    {
+        "firstname": "Simon",
+        "lastname":"banon",
+        "username": "sb@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 2
+    },
+    {
+        "firstname": "Nicolas",
+        "lastname":"verdier",
+        "username": "mverdier@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 2
+    },
+    {
+        "firstname": "john",
+        "lastname":"doye",
+        "username": "johndoye@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 2
+    },
+    {
+        "firstname": "Manu",
+        "lastname":"bouteille",
+        "username": "bouteilleenManu@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 2
+    },
+    {
+        "firstname": "Magalie",
+        "lastname":"dumond",
+        "username": "magdum@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 2
+    },
+    {
+        "firstname": "Sylvie",
+        "lastname":"malandrin",
+        "username": "sylviedu94@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 2
+    },
+    {
+        "firstname": "Phuoc",
+        "lastname":"Tran",
+        "username": "phuoacnamtran@gmail.com",
+        "roles": ["ROLE_CLIENT"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "enrico",
+        "lastname":"delpras",
+        "username": "enricodelpras@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "Richard",
+        "lastname":"desfougeres",
+        "username": "fougeres@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "Vinnie",
+        "lastname":"paul",
+        "username": "vinnie@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "Dimebag",
+        "lastname":"darrel",
+        "username": "ddarrell@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "pete",
+        "lastname":"froissart",
+        "username": "froissartpete@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "Didier",
+        "lastname":"de la tourelle",
+        "username": "dddlt@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "severine",
+        "lastname":"cordier",
+        "username": "cordier.severine@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "Ricardo",
+        "lastname":"del prado",
+        "username": "pradoricardo@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "estelle",
+        "lastname":"linux",
+        "username": "linux.est.l@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 3
+    },
+    {
+        "firstname": "ji-hyun",
+        "lastname":"jeong",
+        "username": "jhj@gmail.com",
+        "roles": ["ROLE_CLIENT"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Marcel",
+        "lastname":"tripoux",
+        "username": "mtripoux@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Venus",
+        "lastname":"william",
+        "username": "venus.w@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Jane",
+        "lastname":"doe",
+        "username": "jdo@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Patrice",
+        "lastname":"ferrandi",
+        "username": "pferrandi@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Christelle",
+        "lastname":"verrati",
+        "username": "cverrtai@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Jonathan",
+        "lastname":"cholet",
+        "username": "jcholet@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Amandine",
+        "lastname":"Vertus",
+        "username": "amandinev@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Michael",
+        "lastname":"renoir",
+        "username": "mrenoir34@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Maxime",
+        "lastname":"genepi",
+        "username": "mgenepi@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Pierre-francois",
+        "lastname":"marmiton",
+        "username": "pfm@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Agathe",
+        "lastname":"deblouze",
+        "username": "agadebi@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Cerise",
+        "lastname":"suleux-gatot",
+        "username": "cerise556@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    },
+    {
+        "firstname": "Mike",
+        "lastname":"wagner",
+        "username": "mwag@gmail.com",
+        "roles": ["ROLE_USER"],
+        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "client": 4
+    }
+]

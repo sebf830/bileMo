@@ -27,7 +27,7 @@ class Products
     private ?string $stock = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Category $category = null;
 
     public function getId(): ?int
