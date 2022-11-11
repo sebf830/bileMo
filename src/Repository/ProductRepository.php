@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Products;
+use App\Entity\Product;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
- * @extends ServiceEntityRepository<Products>
+ * @extends ServiceEntityRepository<Product>
  *
  * @method Products|null find($id, $lockMode = null, $lockVersion = null)
  * @method Products|null findOneBy(array $criteria, array $orderBy = null)
  * @method Products[]    findAll()
  * @method Products[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductsRepository extends ServiceEntityRepository
+class ProductRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Products::class);
+        parent::__construct($registry, Product::class);
     }
 
-    public function save(Products $entity, bool $flush = false): void
+    public function save(Product $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -31,7 +31,7 @@ class ProductsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Products $entity, bool $flush = false): void
+    public function remove(Product $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 

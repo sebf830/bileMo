@@ -31,6 +31,13 @@ class UserController extends AbstractController
 
     }
 
+    public static function links(){
+        return [
+            ["name" => "getCollection", "type" => "collection", "verb" => "GET", "href" => '/users'],
+            ["name" => "getItem", "type" => "item","verb" => "GET", "href" => '/users']
+        ];
+    }
+
     #[Route('/', name: 'app_users_collection', methods: ['GET'])]
     public function getCollection(Request $request, UserRepository $userRepo): JsonResponse
     {
@@ -38,10 +45,11 @@ class UserController extends AbstractController
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
         $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
+        $params['client'] = $request->get('client') ? $request->get('client') : null;
 
         $usersCount = $this->em->getRepository(User::class)->countApiUsers();
 
-        $cacheName = 'getUsers' . $params['page'] . '-'. $params['per_page'].'-'. implode('-', $params['embed']);
+        $cacheName = 'users' . $params['page'] . '-'. $params['per_page'].'-'. implode('-', $params['embed']) .'-'. $params['client'];
 
         $users = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
             $item->expiresAfter(3600);
@@ -81,8 +89,9 @@ class UserController extends AbstractController
 
         $params['user'] = $userId;
         $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
+        $params['client'] = $request->get('client') ? $request->get('client') : null;
 
-        $cacheName = 'getUser' . $userId .'-'. implode('-', $params['embed']);
+        $cacheName = 'user' . $userId .'-'. implode('-', $params['embed']) .'-'. $params['client'];
 
         $user = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
             $item->expiresAfter(3600);

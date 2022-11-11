@@ -19,7 +19,8 @@
         "symfony/runtime": "6.1.*",
         "symfony/serializer": "6.1.*",
         "symfony/validator": "6.1.*",
-        "symfony/yaml": "6.1.*"
+        "symfony/yaml": "6.1.*",
+        "willdurand/hateoas-bundle": "^2.5"
     },
     "config": {
         "allow-plugins": {
@@ -69,7 +70,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "6.1.*"
         }
     }

@@ -16,7 +16,7 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $entities = ["category", 'client', 'products', 'user'];
+        $entities = ["category", 'client', 'product', 'user'];
 
         foreach($entities as $entity){
 

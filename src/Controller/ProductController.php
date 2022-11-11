@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Products;
-use App\Repository\ProductsRepository;
+use App\Entity\Product;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use JMS\Serializer\Serializer;
 
 #[Route('/products')]
 class ProductController extends AbstractController
@@ -23,8 +24,15 @@ class ProductController extends AbstractController
         $this->cache = $cache;
     }
 
+    public static function links(){
+        return [
+            ["name" => "getCollection", "type" => "collection", "verb" => "GET", "href" => '/products'],
+            ["name" => "getItem", "type" => "item","verb" => "GET", "href" => '/products']
+        ];
+    }
+
     #[Route('/', name: 'app_products_collection', methods: ['GET'])]
-    public function getCollection(Request $request, ProductsRepository $productRepo): JsonResponse
+    public function getCollection(Request $request, ProductRepository $productRepo): JsonResponse
     {
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
@@ -32,7 +40,7 @@ class ProductController extends AbstractController
         $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
 
 
-        $productsCount = $this->em->getRepository(Products::class)->countApiProducts();
+        $productsCount = $this->em->getRepository(Product::class)->countApiProducts();
 
         $cacheName = 'getProducts-' . $params['page'] . '-'. $params['per_page'] .'-'. implode('-', $params['embed']) ;
 
@@ -57,7 +65,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{productId}', name: 'app_products_item', methods: ['GET'])]
-    public function getItem(Request $request, int $productId, ProductsRepository $productRepo): JsonResponse
+    public function getItem(Request $request, int $productId, ProductRepository $productRepo): JsonResponse
     {
         if(!$productId || $productId == null || intval($productId) < 1){
             return new JsonResponse([
