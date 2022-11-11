@@ -30,10 +30,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 60, minMessage: '2 characters minimum',maxMessage: '60 characters maximum')]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 60, minMessage: '2 characters minimum',maxMessage: '60 characters maximum')]
     private ?string $lastname = null;
 
     #[ORM\Column]
@@ -43,6 +45,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\Regex(
+        pattern: "/^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%])(?!.*(.)\1{2}).*[a-z]/m",
+        match: true,
+        message: "Must contain 8 chars at least, including upper & lower case letters, 1 number, 1 symbol")]
     private ?string $password = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
