@@ -80,7 +80,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             $qb->setMaxResults($params['per_page']);
         }
 
-        if($params['user']){
+        if(isset($params['user'])){
             $qb
             ->andWhere('u.id = :user')
             ->setParameter('user', $params['user']);

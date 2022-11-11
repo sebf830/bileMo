@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Products;
+use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,20 +16,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ProductController extends AbstractController
 {
     private EntityManagerInterface $em;
+    private CacheInterface $cache;
 
-    public function __construct(EntityManagerInterface $em) {
+    public function __construct(EntityManagerInterface $em, CacheInterface $cache) {
         $this->em = $em;
+        $this->cache = $cache;
     }
 
     #[Route('/', name: 'app_products_collection', methods: ['GET'])]
-    public function getCollection(Request $request): JsonResponse
+    public function getCollection(Request $request, ProductsRepository $productRepo): JsonResponse
     {
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
 
-        $products = $this->em->getRepository(Products::class)->getApiProducts($params);
         $productsCount = $this->em->getRepository(Products::class)->countApiProducts();
+
+        $cacheName = 'getProducts-' . $params['page'] . '-'. $params['per_page'];
+
+        $products = $this->cache->get($cacheName, function(ItemInterface $item) use($productRepo, $params){
+            $item->expiresAfter(3600);
+            return $productRepo->getApiProducts($params);
+        });
     
         $totalPage = $params['per_page'] != null  
         ? ceil(count($productsCount) / $params['per_page']) 
@@ -44,7 +55,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{productId}', name: 'app_products_item', methods: ['GET'])]
-    public function getItem(Request $request, int $productId): JsonResponse
+    public function getItem(Request $request, int $productId, ProductsRepository $productRepo): JsonResponse
     {
         if(!$productId || $productId == null || intval($productId) < 1){
             return new JsonResponse([
@@ -55,7 +66,12 @@ class ProductController extends AbstractController
         }
 
         $params['product'] = $productId;
-        $product = $this->em->getRepository(Products::class)->getApiProducts($params);
+        $cacheName = 'getProduct' . $productId;
+
+        $product = $this->cache->get($cacheName, function(ItemInterface $item) use($productRepo, $params){
+            $item->expiresAfter(3600);
+            return $productRepo->getApiProducts($params);
+        });
 
         if(!$product){
             return new JsonResponse([

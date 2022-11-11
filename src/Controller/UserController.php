@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Client;
+use App\Repository\UserRepository;
 use App\Validator\EntityValidator;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,21 +22,30 @@ class UserController extends AbstractController
 
     private EntityManagerInterface $em;
     private EntityValidator $validator;
+    private CacheInterface $cache;
 
-    public function __construct(EntityManagerInterface $em, EntityValidator $validator) {
+    public function __construct(EntityManagerInterface $em, EntityValidator $validator, CacheInterface $cache) {
         $this->em = $em;
         $this->validator = $validator;
+        $this->cache = $cache;
+
     }
 
     #[Route('/', name: 'app_users_collection', methods: ['GET'])]
-    public function getCollection(Request $request): JsonResponse
+    public function getCollection(Request $request, UserRepository $userRepo): JsonResponse
     {
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
 
-        $users = $this->em->getRepository(User::class)->getApiUsers($params);
         $usersCount = $this->em->getRepository(User::class)->countApiUsers();
+
+        $cacheName = 'getUsers' . $params['page'] . '-'. $params['per_page'];
+
+        $users = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
+            $item->expiresAfter(3600);
+            return $userRepo->getApiUsers($params);
+        });
     
         $totalPage = $params['per_page'] != null  
         ? ceil(count($usersCount) / $params['per_page']) 
@@ -56,7 +68,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{userId}', name: 'app_user_item', methods: ['GET'])]
-    public function getItem(Request $request, int $userId): JsonResponse
+    public function getItem(Request $request, int $userId, UserRepository $userRepo): JsonResponse
     {
         if(!$userId || $userId == null || intval($userId) < 1){
             return new JsonResponse([
@@ -67,7 +79,12 @@ class UserController extends AbstractController
         }
 
         $params['user'] = $userId;
-        $user = $this->em->getRepository(User::class)->getApiUsers($params);
+        $cacheName = 'getUser' . $userId;
+
+        $user = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
+            $item->expiresAfter(3600);
+            return $userRepo->getApiUsers($params);
+        });
 
         if(!$user){
             return new JsonResponse([
