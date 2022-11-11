@@ -5,7 +5,7 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class CompanyFixtures extends Fixture
+class AppFixtures extends Fixture
 {
     private $root_directory;
 
