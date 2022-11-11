@@ -56,7 +56,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->save($user, true);
     }
     
-    public function countUserCollection(array $params = null)
+    public function countApiUsers(array $params = null)
     {
         return  $this->createQueryBuilder('u')
            ->andWhere('u.client IS NOT NULL')
@@ -64,7 +64,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
            ->getArrayResult();
     }
 
-   public function getUserCollection(array $params = null): array
+   public function getApiUsers(array $params = null): array
    {
        $qb = $this->createQueryBuilder('u')
            ->leftJoin('u.client', 'c')
@@ -78,6 +78,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         if (isset($params['per_page']) && $params['per_page'] != null) {
             $qb->setMaxResults($params['per_page']);
+        }
+
+        if($params['user']){
+            $qb
+            ->andWhere('u.id = :user')
+            ->setParameter('user', $params['user']);
         }
 
         return $qb

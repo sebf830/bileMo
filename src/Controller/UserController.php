@@ -19,15 +19,15 @@ class UserController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/', name: 'app_user', methods: ['GET'])]
+    #[Route('/', name: 'app_users_collection', methods: ['GET'])]
     public function getCollection(Request $request): JsonResponse
     {
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
 
-        $users = $this->em->getRepository(User::class)->getUserCollection($params);
-        $usersCount = $this->em->getRepository(User::class)->countUserCollection();
+        $users = $this->em->getRepository(User::class)->getApiUsers($params);
+        $usersCount = $this->em->getRepository(User::class)->countApiUsers();
     
         $totalPage = $params['per_page'] != null  
         ? ceil(count($usersCount) / $params['per_page']) 
@@ -46,6 +46,37 @@ class UserController extends AbstractController
             'count_items' => count($usersCount),
             'count_pages' => $totalPage,
             'data' => $users
+        ], 200);
+    }
+
+    #[Route('/{userId}', name: 'app_user_item', methods: ['GET'])]
+    public function getItem(Request $request, int $userId): JsonResponse
+    {
+        if(!$userId || $userId == null || intval($userId) < 1){
+            return new JsonResponse([
+                'statusCode' => 400,
+                'status' => 'BAD_REQUEST',
+                'message' => "missing or incorrect parameter id"
+            ], 400);
+        }
+
+        $params['user'] = $userId;
+        $user = $this->em->getRepository(User::class)->getApiUsers($params);
+
+        if(!$user){
+            return new JsonResponse([
+                'statusCode' => 404,
+                'status' => 'USER_NOT_FOUND',
+                'message' => "the request is not found"
+            ], 404);
+        }
+
+        unset($user[0]['password']);
+
+        return new JsonResponse([
+            'statusCode' => 200,
+            'status' => 'SUCCESS',
+            'data' => $user
         ], 200);
     }
 }
