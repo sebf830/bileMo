@@ -42,4 +42,33 @@ class ProductController extends AbstractController
             'data' => $products
         ], 200);
     }
+
+    #[Route('/{productId}', name: 'app_products_item', methods: ['GET'])]
+    public function getItem(Request $request, int $productId): JsonResponse
+    {
+        if(!$productId || $productId == null || intval($productId) < 1){
+            return new JsonResponse([
+                'statusCode' => 400,
+                'status' => 'BAD_REQUEST',
+                'message' => "missing or incorrect parameter id"
+            ], 400);
+        }
+
+        $params['product'] = $productId;
+        $product = $this->em->getRepository(Products::class)->getApiProducts($params);
+
+        if(!$product){
+            return new JsonResponse([
+                'statusCode' => 404,
+                'status' => 'USER_NOT_FOUND',
+                'message' => "the request is not found"
+            ], 404);
+        }
+
+        return new JsonResponse([
+            'statusCode' => 200,
+            'status' => 'SUCCESS',
+            'data' => $product
+        ], 200);
+    }
 }
