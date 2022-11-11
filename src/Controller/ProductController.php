@@ -29,10 +29,12 @@ class ProductController extends AbstractController
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
+        $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
+
 
         $productsCount = $this->em->getRepository(Products::class)->countApiProducts();
 
-        $cacheName = 'getProducts-' . $params['page'] . '-'. $params['per_page'];
+        $cacheName = 'getProducts-' . $params['page'] . '-'. $params['per_page'] .'-'. implode('-', $params['embed']) ;
 
         $products = $this->cache->get($cacheName, function(ItemInterface $item) use($productRepo, $params){
             $item->expiresAfter(3600);
@@ -66,7 +68,9 @@ class ProductController extends AbstractController
         }
 
         $params['product'] = $productId;
-        $cacheName = 'getProduct' . $productId;
+        $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
+
+        $cacheName = 'getProduct' . $productId .'-'. implode('-', $params['embed']);
 
         $product = $this->cache->get($cacheName, function(ItemInterface $item) use($productRepo, $params){
             $item->expiresAfter(3600);

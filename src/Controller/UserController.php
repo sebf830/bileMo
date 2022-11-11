@@ -37,10 +37,11 @@ class UserController extends AbstractController
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
+        $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
 
         $usersCount = $this->em->getRepository(User::class)->countApiUsers();
 
-        $cacheName = 'getUsers' . $params['page'] . '-'. $params['per_page'];
+        $cacheName = 'getUsers' . $params['page'] . '-'. $params['per_page'].'-'. implode('-', $params['embed']);
 
         $users = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
             $item->expiresAfter(3600);
@@ -79,7 +80,9 @@ class UserController extends AbstractController
         }
 
         $params['user'] = $userId;
-        $cacheName = 'getUser' . $userId;
+        $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
+
+        $cacheName = 'getUser' . $userId .'-'. implode('-', $params['embed']);
 
         $user = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
             $item->expiresAfter(3600);

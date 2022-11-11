@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Products;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Products>
@@ -50,6 +51,10 @@ class ProductsRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->orderBy('p.name', 'DESC');
+
+        if (!empty($params['embed'])) {
+            $this->addSelected($this, $qb, $params['embed']);
+        }
  
          if (isset($params['offset']) && $params['offset'] != null) {
              $qb->setFirstResult($params['offset']);
@@ -68,5 +73,30 @@ class ProductsRepository extends ServiceEntityRepository
          return $qb
             ->getQuery()
             ->getArrayResult();
+    }
+
+    private function addSelected($entityClass, QueryBuilder $qb, $params):void 
+    {
+        $relationList = [];
+
+        // get the relation of entity (strings)
+        foreach(get_object_vars($entityClass)["_class"]->getAssociationMappings() as $property){
+            $relationList[] = $property['fieldName'];
+        }
+        
+        // get the alias letter of the entity
+        $alias = $qb->getDQLParts()['from'][0]->getAlias();
+
+        if(is_array($params) && count($params) > 0){
+            for($i = 0; $i < count($params); $i++){
+                // if the relation exists 
+                if(in_array($params[$i], $relationList)){
+                    $qb
+                    ->leftJoin("{$alias}.{$params[$i]}", "o{$i}")
+                    ->addSelect("o{$i}")
+                    ;
+                }
+            }
+        }
     }
 }
