@@ -55,7 +55,7 @@ class SecurityController extends AbstractController
                 'lastname' => $user->getLastname(),
                 'email' => $user->getUsername(),
                 'role'=> $user->getRoles(),
-                'connexion' => new \Datetime('now'),
+                'connexion' => (new \Datetime('now'))->format('Y-m-d H:i:s'),
                 'token' => $token
             ]
         ], 200);
