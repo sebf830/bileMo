@@ -136,4 +136,35 @@ class UserController extends AbstractController
             ]
         ], 200);
     }
+
+    #[Route('/{userId}', name: 'app_user_delete', methods: ['DELETE'])]
+    public function delete(Request $request,  UserPasswordHasherInterface $hasher, int $userId): JsonResponse
+    {
+        if(!$userId || $userId == null || intval($userId) < 1){
+            return new JsonResponse([
+                'statusCode' => 400,
+                'status' => 'BAD_REQUEST',
+                'message' => "missing or incorrect parameter id"
+            ], 400);
+        }
+
+        $user = $this->em->getRepository(User::class)->find($userId);
+
+        if(!$user){
+            return new JsonResponse([
+                'statusCode' => 404,
+                'status' => 'USER_NOT_FOUND',
+                'message' => "the request is not found"
+            ], 404);
+        }
+
+        $this->em->remove($user);
+        $this->em->flush();
+
+        return new JsonResponse([
+            'statusCode' => 200,
+            'status' => 'SUCCESS',
+            'message' => "User successfully deleted"
+        ], 200);
+    }
 }
