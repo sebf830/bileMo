@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use JMS\Serializer\Serializer;
 
-#[Route('/products')]
+#[Route('/api/products')]
 class ProductController extends AbstractController
 {
     private EntityManagerInterface $em;

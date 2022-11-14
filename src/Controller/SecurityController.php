@@ -13,7 +13,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 
 class SecurityController extends AbstractController
 {
-    #[Route('/login', name: 'app_login')]
+    #[Route('/api/login', name: 'app_login', methods:['POST'])]
     public function login(
         JWTTokenManagerInterface $JWTManager, 
         Request $request, 

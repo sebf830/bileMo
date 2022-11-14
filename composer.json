@@ -10,6 +10,8 @@
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/orm": "^2.13",
         "lexik/jwt-authentication-bundle": "^2.16",
+        "nelmio/api-doc-bundle": "^4.10",
+        "symfony/asset": "6.1.*",
         "symfony/console": "6.1.*",
         "symfony/dotenv": "6.1.*",
         "symfony/flex": "^2",
@@ -18,8 +20,11 @@
         "symfony/maker-bundle": "^1.47",
         "symfony/runtime": "6.1.*",
         "symfony/serializer": "6.1.*",
+        "symfony/twig-bundle": "6.1.*",
         "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0",
         "willdurand/hateoas-bundle": "^2.5"
     },
     "config": {
