@@ -46,9 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\Regex(
-        pattern: "/^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%])(?!.*(.)\1{2}).*[a-z]/m",
+        pattern: "/^(?=.*[a-zA-Z])(?=.*\\d).{8,}$/i",
         match: true,
-        message: "Must contain 8 chars at least, including upper & lower case letters, 1 number, 1 symbol")]
+        message: "password must contains at least 8 chars & include at least one uppercase and one number.")]
     private ?string $password = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use JMS\Serializer\Serializer;
+use App\Controller\BaseController;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -11,17 +13,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use JMS\Serializer\Serializer;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 
-#[Route('/products')]
-class ProductController extends AbstractController
+#[Route('/api/products')]
+class ProductController extends BaseController
 {
     private EntityManagerInterface $em;
     private CacheInterface $cache;
 
-    public function __construct(EntityManagerInterface $em, CacheInterface $cache) {
+    public function __construct(EntityManagerInterface $em, CacheInterface $cache, JWTEncoderInterface $encoder) {
         $this->em = $em;
         $this->cache = $cache;
+        $this->encoder = $encoder;
     }
 
     public static function links(){
@@ -34,6 +37,14 @@ class ProductController extends AbstractController
     #[Route('/', name: 'app_products_collection', methods: ['GET'])]
     public function getCollection(Request $request, ProductRepository $productRepo): JsonResponse
     {
+        if(!$this->validToken($request, $this->encoder, $this->em)){
+            return new JsonResponse([
+                'statusCode' => 401,
+                'status' => 'UNAUTHORIZED',
+                'message' => "Invalid or missing or expired token"
+            ], 401);
+        }
+
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
@@ -60,13 +71,21 @@ class ProductController extends AbstractController
             'itemsPerPage' => $params['per_page'] != null ? $params['per_page']: 5,
             'count_items' => count($productsCount),
             'count_pages' => $totalPage,
-            'data' => $products
+            'datas' => $products
         ], 200);
     }
 
     #[Route('/{productId}', name: 'app_products_item', methods: ['GET'])]
     public function getItem(Request $request, int $productId, ProductRepository $productRepo): JsonResponse
     {
+        if(!$this->validToken($request, $this->encoder, $this->em)){
+            return new JsonResponse([
+                'statusCode' => 401,
+                'status' => 'UNAUTHORIZED',
+                'message' => "Invalid or missing or expired token"
+            ], 401);
+        }
+
         if(!$productId || $productId == null || intval($productId) < 1){
             return new JsonResponse([
                 'statusCode' => 400,
@@ -96,7 +115,7 @@ class ProductController extends AbstractController
         return new JsonResponse([
             'statusCode' => 200,
             'status' => 'SUCCESS',
-            'data' => $product
+            'datas' => $product
         ], 200);
     }
 }
