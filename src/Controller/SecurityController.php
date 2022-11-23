@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
             return new JsonResponse([
                 "statusCode" => 400,
                 "status" => "BAD_CREDENTIALS",
-                "message" => "The request is bad"
+                "message" => "invalid credentials"
             ], 400);
         }
 
@@ -40,7 +40,7 @@ class SecurityController extends AbstractController
             return new JsonResponse([
                 "statusCode" => 400,
                 "status" => "BAD_CREDENTIALS",
-                "message" => "The request is bad"
+                "message" => "invalid credentials"
             ], 400);
         }
 

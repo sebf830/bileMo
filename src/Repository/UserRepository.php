@@ -60,7 +60,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function countApiUsers(array $params = null)
     {
         $qb =  $this->createQueryBuilder('u')
-        ->andWhere('u.client IS NOT NULL')
+            ->leftJoin('u.client', 'c')
+           ->where('c.id IS NOT NULL')
+           ->andWhere('u.client IS NOT NULL')
         ;
 
         if(isset($params['client'])){

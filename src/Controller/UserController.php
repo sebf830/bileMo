@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Client;
-use App\Controller\BaseController;
 use App\Repository\UserRepository;
+use App\Service\UserService;
 use App\Validator\EntityValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -19,9 +19,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 #[Route('/api/users')]
-class UserController extends BaseController
+class UserController extends AbstractController
 {
-
     private EntityManagerInterface $em;
     private EntityValidator $validator;
     private CacheInterface $cache;
@@ -36,29 +35,22 @@ class UserController extends BaseController
     public static function links(){
         return [
             ["name" => "getCollection", "type" => "collection", "verb" => "GET", "href" => '/users'],
-            ["name" => "getItem", "type" => "item","verb" => "GET", "href" => '/users'],
-            ["name" => "delete", "type" => "item","verb" => "DELETE", "href" => '/users'],
+            ["name" => "getItem", "type" => "item","verb" => "GET", "href" => '/users']
         ];
     }
 
     #[Route('/', name: 'app_users_collection', methods: ['GET'])]
-    public function getCollection(Request $request, UserRepository $userRepo): JsonResponse
+    public function getCollection(Request $request, UserRepository $userRepo, UserService $userService): JsonResponse
     {
-        if(!$this->validToken($request, $this->encoder, $this->em)){
-            return new JsonResponse([
-                'statusCode' => 401,
-                'status' => 'UNAUTHORIZED',
-                'message' => "Invalid or missing or expired token"
-            ], 401);
-        }
-
+        $user = $userService->getCurrentUser();
+ 
+        $params['client'] = $user->getClient()->getId() ? $user->getClient()->getId() : null;
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
         $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
-        $params['client'] = $request->get('client') ? $request->get('client') : null;
 
-        $usersCount = $this->em->getRepository(User::class)->countApiUsers();
+        $usersCount = $this->em->getRepository(User::class)->countApiUsers($params);
 
         $cacheName = 'users' . $params['page'] . '-'. $params['per_page'].'-'. implode('-', $params['embed']) .'-'. $params['client'];
 
@@ -66,7 +58,7 @@ class UserController extends BaseController
             $item->expiresAfter(3600);
             return $userRepo->getApiUsers($params);
         });
-    
+
         $totalPage = $params['per_page'] != null  
         ? ceil(count($usersCount) / $params['per_page']) 
         : ceil(count($usersCount) / 5);
@@ -90,14 +82,6 @@ class UserController extends BaseController
     #[Route('/{userId}', name: 'app_user_item', methods: ['GET'])]
     public function getItem(Request $request, int $userId, UserRepository $userRepo): JsonResponse
     {
-        if(!$this->validToken($request, $this->encoder, $this->em)){
-            return new JsonResponse([
-                'statusCode' => 401,
-                'status' => 'UNAUTHORIZED',
-                'message' => "Invalid or missing or expired token"
-            ], 401);
-        }
-
         if(!$userId || $userId == null || intval($userId) < 1){
             return new JsonResponse([
                 'statusCode' => 400,
@@ -136,14 +120,6 @@ class UserController extends BaseController
     #[Route('/', name: 'app_user_create', methods: ['POST'])]
     public function create(Request $request,  UserPasswordHasherInterface $hasher): JsonResponse
     {
-        if(!$this->validToken($request, $this->encoder, $this->em)){
-            return new JsonResponse([
-                'statusCode' => 401,
-                'status' => 'UNAUTHORIZED',
-                'message' => "Invalid or missing or expired token"
-            ], 401);
-        }
-        
         $content = json_decode($request->getContent(), true);
         
         $user = (new User())
@@ -195,14 +171,6 @@ class UserController extends BaseController
     #[Route('/{userId}', name: 'app_user_delete', methods: ['DELETE'])]
     public function delete(Request $request,  UserPasswordHasherInterface $hasher, int $userId): JsonResponse
     {
-        if(!$this->validToken($request, $this->encoder, $this->em)){
-            return new JsonResponse([
-                'statusCode' => 401,
-                'status' => 'UNAUTHORIZED',
-                'message' => "Invalid or missing or expired token"
-            ], 401);
-        }
-
         if(!$userId || $userId == null || intval($userId) < 1){
             return new JsonResponse([
                 'statusCode' => 400,

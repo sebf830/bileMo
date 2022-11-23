@@ -11,9 +11,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 
-class JWTSubscriber implements EventSubscriberInterface
+class UserSubscriber implements EventSubscriberInterface
 {
     private $em;
     private $userService;
@@ -27,30 +26,28 @@ class JWTSubscriber implements EventSubscriberInterface
         $this->userService = $userService;
     }
 
-    public function onKernelRequest(RequestEvent $event)
-    {       
-        if($event->getRequest()->get('_route') != 'app_login'){
+    public function onUserRequest(RequestEvent $event){
 
-            $user = $this->userService->getCurrentUser();
+        if(in_array($event->getRequest()->get('_route'), self::USER_ROUTES)){
 
-            if(!$user){
-                throw new JWTDecodeFailureException('invalid user', 'invalid credentials');
-            }
-            
+            $currentUser = $this->userService->getCurrentUser();
             $payload = $this->userService->getPayload();
-            $expiration = date('Y-m-d H:i:s', $payload['exp']);
-            
-            if(new \Datetime('now') > new \Datetime($expiration)){
-                throw new JWTDecodeFailureException('expired', 'Your token is expired');
+            $reqUser = $this->em->getRepository(User::class)->find($event->getRequest()->attributes->get('_route_params')['userId']);
+
+            if(!$currentUser->getClient() || !$currentUser->getClient()->getUsers()->contains($reqUser)){
+                throw new UnauthorizedHttpException('', 'cannot access this resource', null, 401);
+            }
+             
+            if(!in_array('ROLE_CLIENT', $payload['roles']) && !in_array('ROLE_ADMIN', $payload['roles'])){
+                throw new UnauthorizedHttpException('', 'cannot access this resource', null, 401);
             }
         }
     }
 
-
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => 'onKernelRequest'
+            KernelEvents::REQUEST => 'onUserRequest'
         ];
     }
 }
