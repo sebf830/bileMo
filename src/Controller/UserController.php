@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Annotations as OA;
 
 
 #[Route('/api/users')]
@@ -45,6 +48,8 @@ class UserController extends AbstractController
         ];
     }
 
+
+ 
     #[Route('/', name: 'app_users_collection', methods: ['GET'])]
     public function getCollection(Request $request, UserRepository $userRepo): JsonResponse
     {
