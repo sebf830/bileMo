@@ -24,12 +24,18 @@ class UserController extends AbstractController
     private EntityManagerInterface $em;
     private EntityValidator $validator;
     private CacheInterface $cache;
+    private UserService $userService;
 
-    public function __construct(EntityManagerInterface $em, EntityValidator $validator, CacheInterface $cache, JWTEncoderInterface $encoder) {
+    public function __construct(EntityManagerInterface $em, 
+    EntityValidator $validator, 
+    CacheInterface $cache, 
+    JWTEncoderInterface $encoder, 
+    UserService $userService) {
         $this->em = $em;
         $this->validator = $validator;
         $this->cache = $cache;
         $this->encoder = $encoder;
+        $this->userService = $userService;
     }
 
     public static function links(){
@@ -40,20 +46,29 @@ class UserController extends AbstractController
     }
 
     #[Route('/', name: 'app_users_collection', methods: ['GET'])]
-    public function getCollection(Request $request, UserRepository $userRepo, UserService $userService): JsonResponse
+    public function getCollection(Request $request, UserRepository $userRepo): JsonResponse
     {
-        $user = $userService->getCurrentUser();
- 
+        // get current user
+        $user = $this->userService->getCurrentUser();
+
+        // user param
         $params['client'] = $user->getClient()->getId() ? $user->getClient()->getId() : null;
+ 
+        // query params
+        $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
+
+        // pagination filter
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
-        $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
 
+        // get users number
         $usersCount = $this->em->getRepository(User::class)->countApiUsers($params);
 
+        // id cache
         $cacheName = 'users' . $params['page'] . '-'. $params['per_page'].'-'. implode('-', $params['embed']) .'-'. $params['client'];
 
+        // get users
         $users = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
             $item->expiresAfter(3600);
             return $userRepo->getApiUsers($params);
@@ -80,8 +95,9 @@ class UserController extends AbstractController
     }
 
     #[Route('/{userId}', name: 'app_user_item', methods: ['GET'])]
-    public function getItem(Request $request, int $userId, UserRepository $userRepo): JsonResponse
+    public function getItem(Request $request, int $userId, UserRepository $userRepo, ): JsonResponse
     {
+        // check user param
         if(!$userId || $userId == null || intval($userId) < 1){
             return new JsonResponse([
                 'statusCode' => 400,
@@ -90,9 +106,12 @@ class UserController extends AbstractController
             ], 400);
         }
 
+        // get current user
+        $user = $this->userService->getCurrentUser();
+
         $params['user'] = $userId;
         $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
-        $params['client'] = $request->get('client') ? $request->get('client') : null;
+        $params['client'] = $user->getClient()->getId() ? $user->getClient()->getId() : null;
         $cacheName = 'user' . $userId .'-'. implode('-', $params['embed']) .'-'. $params['client'];
 
         $user = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
