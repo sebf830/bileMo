@@ -18,7 +18,7 @@ class JWTSubscriber implements EventSubscriberInterface
     private $em;
     private $userService;
     public const USER_ROUTES = ['app_user_item', 'app_user_delete'];
-
+    public const PUBLIC_ROUTES = ['app.swagger', 'app.swagger_ui', 'app_login'];
     public function __construct(UserService $userService, JWTEncoderInterface $encoder, JWTTokenManagerInterface $jwtManager, EntityManagerInterface $em)
     {
         $this->jwtManager = $jwtManager;
@@ -29,7 +29,7 @@ class JWTSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event)
     {       
-        if($event->getRequest()->get('_route') != 'app_login'){
+        if(!in_array($event->getRequest()->get('_route'),  self::PUBLIC_ROUTES)){
 
             $user = $this->userService->getCurrentUser();
 
