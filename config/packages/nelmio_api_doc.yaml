@@ -25,6 +25,18 @@ nelmio_api_doc:
                                 application/json:
                                     schema:
                                         $ref: '#/components/schemas/Token'
+            /api/users/:
+                post: 
+                    tags:  
+                       - users
+                    requestBody:    
+                        content:
+                            application/json:
+                                schema:
+                                    $ref: '#/components/schemas/User'
+                                    
+                                
+
         components:
             schemas:
                 Token:
@@ -42,6 +54,27 @@ nelmio_api_doc:
                         password:
                             type: string
                             default: 1234
+                User: 
+                    type: object
+                    properties:
+                        firstname:
+                            type: string
+                            default: john
+                        lastname:
+                            type: string
+                            default: doe 
+                        username:
+                            type: string
+                            default: john_doe@gmail.com
+                        role:
+                            type: string
+                            default: ROLE_USER
+                        password:
+                            type: string
+                            default: my_password
+                        client: 
+                            type: int 
+                            default: 1
             securitySchemes:
                 bearerAuth:
                     type: apiKey

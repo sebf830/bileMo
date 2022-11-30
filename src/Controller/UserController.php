@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Client;
-use App\Repository\UserRepository;
 use App\Service\UserService;
+use App\Repository\UserRepository;
 use App\Validator\EntityValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
 
 
@@ -141,6 +139,20 @@ class UserController extends AbstractController
         ], 200);
     }
 
+
+    /**
+     * @OA\Post(path="/users",
+     *     tags={"user"},
+     *     summary="Create user",
+     *     description="authentication required",
+     *     operationId="createUser",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Created user object",
+     *     ),
+     *     @OA\Response(response="default", description="successful operation")
+     * )
+     */
     #[Route('/', name: 'app_user_create', methods: ['POST'])]
     public function create(Request $request,  UserPasswordHasherInterface $hasher): JsonResponse
     {
