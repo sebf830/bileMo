@@ -10,7 +10,7 @@ nelmio_api_doc:
                 post:
                     operationId: postCredentialsItem
                     tags:
-                        - Token
+                        - auth
                     summary: Permet d'obtenir le token JWT pour se logger.
                     requestBody:
                         description: Crée un nouveau token JWT
@@ -24,7 +24,7 @@ nelmio_api_doc:
                             content:
                                 application/json:
                                     schema:
-                                        $ref: '#/components/schemas/Token'
+                                        $ref: '#/components/schemas/auth'
             /api/users/:
                 post: 
                     tags:  
@@ -39,7 +39,7 @@ nelmio_api_doc:
 
         components:
             schemas:
-                Token:
+                auth:
                     type: object
                     properties:
                         token:

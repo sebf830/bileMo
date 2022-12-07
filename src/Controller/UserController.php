@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Client;
 use App\Service\UserService;
+use OpenApi\Attributes as OA;
 use App\Repository\UserRepository;
 use App\Validator\EntityValidator;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,9 +18,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use OpenApi\Annotations as OA;
 
-
+#[OA\Tag(name: 'users')]
 #[Route('/api/users')]
 class UserController extends AbstractController
 {
@@ -47,7 +48,16 @@ class UserController extends AbstractController
     }
 
 
- 
+    #[OA\Response(
+        response: 200,
+        description: 'Returns a collection of users, only users linkd to a client will be displayed',
+    )]
+    #[OA\Parameter(
+        name: 'embed',
+        in: 'query',
+        description: 'allow user to get a relation datas (?embed=client)',
+        schema: new OA\Schema(type: 'string')
+    )]
     #[Route('/', name: 'app_users_collection', methods: ['GET'])]
     public function getCollection(Request $request, UserRepository $userRepo): JsonResponse
     {
@@ -97,6 +107,21 @@ class UserController extends AbstractController
         ], 200);
     }
 
+
+    #[OA\Response(
+        response: 200,
+        description: 'Returns a user',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: User::class, groups: ['userItem']))
+        )
+    )]
+    #[OA\Parameter(
+        name: 'embed',
+        in: 'query',
+        description: 'allow user to get a relation datas (?embed=client)',
+        schema: new OA\Schema(type: 'string')
+    )]
     #[Route('/{userId}', name: 'app_user_item', methods: ['GET'])]
     public function getItem(Request $request, int $userId, UserRepository $userRepo, ): JsonResponse
     {
@@ -140,19 +165,10 @@ class UserController extends AbstractController
     }
 
 
-    /**
-     * @OA\Post(path="/users",
-     *     tags={"user"},
-     *     summary="Create user",
-     *     description="authentication required",
-     *     operationId="createUser",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         description="Created user object",
-     *     ),
-     *     @OA\Response(response="default", description="successful operation")
-     * )
-     */
+    #[OA\Response(
+        response: 201,
+        description: 'Create a user',
+    )]
     #[Route('/', name: 'app_user_create', methods: ['POST'])]
     public function create(Request $request,  UserPasswordHasherInterface $hasher): JsonResponse
     {
@@ -204,6 +220,11 @@ class UserController extends AbstractController
         ], 200);
     }
 
+
+    #[OA\Response(
+        response: 200,
+        description: 'delete a user',
+    )]
     #[Route('/{userId}', name: 'app_user_delete', methods: ['DELETE'])]
     public function delete(Request $request,  UserPasswordHasherInterface $hasher, int $userId): JsonResponse
     {

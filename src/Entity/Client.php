@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ClientRepository;
+use JMS\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 #[ORM\Table(name: '`clients`')]
@@ -14,21 +15,27 @@ class Client
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['userItem'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['userItem'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['userItem'])]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['userItem'])]
     private ?string $zip = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['userItem'])]
     private ?string $city = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['userItem'])]
     private ?string $phone = null;
 
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: User::class)]

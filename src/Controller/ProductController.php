@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use OpenApi\Attributes as OA;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 
+#[OA\Tag(name: 'products')]
 #[Route('/api/products')]
 class ProductController extends AbstractController
 {
@@ -32,6 +35,17 @@ class ProductController extends AbstractController
         ];
     }
 
+
+    #[OA\Response(
+        response: 200,
+        description: 'returns a collection of products',
+    )]
+    #[OA\Parameter(
+        name: 'embed',
+        in: 'query',
+        description: 'allow user to get a relation datas (?embed=category)',
+        schema: new OA\Schema(type: 'string')
+    )]
     #[Route('/', name: 'app_products_collection', methods: ['GET'])]
     public function getCollection(Request $request, ProductRepository $productRepo): JsonResponse
     {
@@ -65,6 +79,16 @@ class ProductController extends AbstractController
         ], 200);
     }
 
+    #[OA\Response(
+        response: 200,
+        description: 'Returns a product',
+    )]
+    #[OA\Parameter(
+        name: 'embed',
+        in: 'query',
+        description: 'allow user to get a relation datas (?embed=category)',
+        schema: new OA\Schema(type: 'string')
+    )]
     #[Route('/{productId}', name: 'app_products_item', methods: ['GET'])]
     public function getItem(Request $request, int $productId, ProductRepository $productRepo): JsonResponse
     {

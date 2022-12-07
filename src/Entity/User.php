@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use JMS\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,24 +21,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['userItem'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email(message: 'Email is not valid')]
+    #[Groups(['userItem'])]
     private ?string $username = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 60, minMessage: '2 characters minimum',maxMessage: '60 characters maximum')]
+    #[Groups(['userItem'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 60, minMessage: '2 characters minimum',maxMessage: '60 characters maximum')]
+    #[Groups(['userItem'])]
     private ?string $lastname = null;
 
     #[ORM\Column]
+    #[Groups(['userItem'])]
     private array $roles = [];
 
     /**
@@ -51,6 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[Groups(['userItem'])]
     private ?Client $client = null;
 
     public function getId(): ?int
