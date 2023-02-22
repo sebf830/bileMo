@@ -41,7 +41,8 @@ class JWTSubscriber implements EventSubscriberInterface
             $expiration = date('Y-m-d H:i:s', $payload['exp']);
             
             if(new \Datetime('now') > new \Datetime($expiration)){
-                throw new JWTDecodeFailureException('expired', 'Your token is expired');
+                // throw new JWTDecodeFailureException('expired', 'Your token is expired');
+                throw new UnauthorizedHttpException('', 'Your token is expired', null, 401);
             }
         }
     }

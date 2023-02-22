@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Client;
+use App\Entity\Product;
 use App\Service\UserService;
 use OpenApi\Attributes as OA;
 use App\Repository\UserRepository;
@@ -48,9 +49,21 @@ class UserController extends AbstractController
     }
 
 
+    /**
+     * Get a collection of users, only users linked to a client will be displayed.
+     *
+     */
     #[OA\Response(
         response: 200,
-        description: 'Returns a collection of users, only users linkd to a client will be displayed',
+        description: 'Successful operation',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: User::class, groups: ['userItem']))
+        )
+    )]
+    #[OA\Response(
+        response: 401,
+        description: 'unauthorized',
     )]
     #[OA\Parameter(
         name: 'embed',
@@ -61,6 +74,8 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_users_collection', methods: ['GET'])]
     public function getCollection(Request $request, UserRepository $userRepo): JsonResponse
     {
+        $this->denyAccessUnlessGranted('VIEW_USERS');
+
         // get current user
         $user = $this->userService->getCurrentUser();
 
@@ -108,9 +123,12 @@ class UserController extends AbstractController
     }
 
 
+    /**
+     *  Get a user
+     */
     #[OA\Response(
         response: 200,
-        description: 'Returns a user',
+        description: 'Returns a User object',
         content: new OA\JsonContent(
             type: 'array',
             items: new OA\Items(ref: new Model(type: User::class, groups: ['userItem']))
@@ -125,6 +143,10 @@ class UserController extends AbstractController
     #[Route('/{userId}', name: 'app_user_item', methods: ['GET'])]
     public function getItem(Request $request, int $userId, UserRepository $userRepo, ): JsonResponse
     {
+        $requestUser = $this->em->getRepository(User::class)->find($userId);
+
+        $this->denyAccessUnlessGranted('VIEW_USER', $requestUser);
+
         // check user param
         if(!$userId || $userId == null || intval($userId) < 1){
             return new JsonResponse([
@@ -172,28 +194,21 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_create', methods: ['POST'])]
     public function create(Request $request,  UserPasswordHasherInterface $hasher): JsonResponse
     {
+        $this->denyAccessUnlessGranted('CREATE_USER');
+
+        $currentUser = $this->userService->getCurrentUser();
+
         $content = json_decode($request->getContent(), true);
         
         $user = (new User())
         ->setFirstname(isset($content['firstname']) ? $content['firstname'] : "" )
         ->setLastname(isset($content['lastname']) ? $content['lastname'] : "" )
         ->setUsername(isset($content['username']) ? $content['username'] : "" )
+        ->setClient($currentUser->getClient())
         ->setRoles([$content['role']]);
         
         $user->setPassword($hasher->hashPassword($user, $content['password']));
         
-        if($content['client'] && is_int($content['client'])){
-            $client = $this->em->getRepository(Client::class)->find($content['client']);
-            
-            if(!$client){
-                return new JsonResponse([
-                    'statusCode' => 404,
-                    'status' => 'CLIENT_NOT_FOUND',
-                    'message' => "the request ressource is not found"
-                ], 404);
-            }
-            $user->setClient($client);
-        }
         $this->em->persist($user);
         
         if(count($this->validator->validate($user)) > 0){
@@ -228,6 +243,7 @@ class UserController extends AbstractController
     #[Route('/{userId}', name: 'app_user_delete', methods: ['DELETE'])]
     public function delete(Request $request,  UserPasswordHasherInterface $hasher, int $userId): JsonResponse
     {
+        
         if(!$userId || $userId == null || intval($userId) < 1){
             return new JsonResponse([
                 'statusCode' => 400,
@@ -235,6 +251,10 @@ class UserController extends AbstractController
                 'message' => "missing or incorrect parameter id"
             ], 400);
         }
+
+        $requestUser = $this->em->getRepository(User::class)->find($userId);
+
+        $this->denyAccessUnlessGranted('DELETE_USER', $requestUser);
 
         $user = $this->em->getRepository(User::class)->find($userId);
 
@@ -250,9 +270,9 @@ class UserController extends AbstractController
         $this->em->flush();
 
         return new JsonResponse([
-            'statusCode' => 204,
+            'statusCode' => 200,
             'status' => 'SUCCESS',
             'message' => "User successfully deleted"
-        ], 204);
+        ], 200);
     }
 }

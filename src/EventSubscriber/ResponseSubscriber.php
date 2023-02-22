@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
+use Symfony\Component\Security\Core\Exception\InsufficientAuthenticationException;
 
 class ResponseSubscriber implements EventSubscriberInterface
 {
@@ -32,6 +33,8 @@ class ResponseSubscriber implements EventSubscriberInterface
         if ($response instanceof JsonResponse) {
             
             $content = json_decode($response->getContent(), true);
+
+            // extract method
             $controller = explode('::', $event->getRequest()->get('_controller'))[0];
             $currentMethod = explode('::', $event->getRequest()->get('_controller'))[1];
             
@@ -39,8 +42,9 @@ class ResponseSubscriber implements EventSubscriberInterface
                 foreach($content['datas'] as $key => $data){
                     foreach($controller::links() as $link){
 
+                        // rename the current route method
                         $type = $link['name'] == $currentMethod ? "self" : $link['type'];
-                        
+                        // add link
                         $content['datas'][$key]['links'][$type] = [
                                 "href" => $link['type'] == 'item' ? $link['href'].'/'. $data['id'] : $link['href'],
                                 "method" => $link['verb']
@@ -48,7 +52,7 @@ class ResponseSubscriber implements EventSubscriberInterface
                     }
                 }
             }
-            // Update response
+            // update response
             $response->setContent(json_encode($content));
         }
     }
@@ -56,22 +60,23 @@ class ResponseSubscriber implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $exception = $event->getThrowable();
+        $exception = $event->getThrowable()->getPrevious();
 
-        if($exception instanceof AccessDeniedHttpException){
+        if($exception instanceof AccessDeniedHttpException || $exception instanceof InsufficientAuthenticationException){
             $response['statusCode'] = Response::HTTP_FORBIDDEN;
             $response['status'] = "ACCESS_DENIED";
+            $response['message'] = "Resource access is forbidden";
         }
         elseif($exception instanceof UnauthorizedHttpException || $exception instanceof JWTDecodeFailureException){
             $response['statusCode'] = Response::HTTP_UNAUTHORIZED;
             $response['status'] = "UNAUTHORIZED";
+            $response['message'] = "unauthorized to access this resource";
+
         }else{
             $response['statusCode'] = Response::HTTP_INTERNAL_SERVER_ERROR;
             $response['status'] = "INTERNAL_SERVER_ERROR";
+            $reponse['message'] = $exception->getMessage();
         }
-
-        $response['error'] = $exception->getMessage();
-        $response['trace'] = $exception->getTrace();
 
         $jsonResponse = new JsonResponse($response);
         $event->setResponse($jsonResponse);

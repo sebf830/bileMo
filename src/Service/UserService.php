@@ -17,6 +17,7 @@ class UserService{
     public function getCurrentUser():User{
  
         $payload = $this->getPayload();
+
         $user = $this->em->getRepository(User::class)->findOneBy(['username' => $payload['username']]);
         
         return $user;
@@ -24,8 +25,7 @@ class UserService{
 
     public function getPayload():array{
         $token = str_replace('Bearer ', '', $this->request->getCurrentRequest()->headers->get('authorization'));
-        $payload = $this->encoder->decode($token);
-       return $payload;
-    }
 
+        return  $this->encoder->decode($token);
+    }
 }

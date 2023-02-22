@@ -59,6 +59,12 @@
         "symfony/polyfill-php81": "*"
     },
     "scripts": {
+        "prep": [
+            "php bin/console d:d:d --force",
+            "php bin/console d:d:c",
+            "php bin/console d:s:u --force",
+            "php bin/console d:f:l --no-interaction"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
