@@ -35,7 +35,6 @@ class ProductController extends AbstractController
         ];
     }
 
-
     /**
      *  Allow a client to access product list and details
      */

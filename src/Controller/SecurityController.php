@@ -20,8 +20,7 @@ class SecurityController extends AbstractController
         JWTTokenManagerInterface $JWTManager, 
         Request $request, 
         UserPasswordHasherInterface $passwordEncoder,
-        EntityManagerInterface $em,
-        UserService $userService
+        EntityManagerInterface $em
         ): JsonResponse
     {
 
