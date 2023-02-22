@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,6 +21,7 @@ class SecurityController extends AbstractController
         Request $request, 
         UserPasswordHasherInterface $passwordEncoder,
         EntityManagerInterface $em,
+        UserService $userService
         ): JsonResponse
     {
 
@@ -43,6 +45,14 @@ class SecurityController extends AbstractController
                 "status" => "BAD_CREDENTIALS",
                 "message" => "invalid credentials"
             ], 400);
+        }
+
+        if(!in_array('ROLE_CLIENT', $user->getRoles())){
+            return new JsonResponse([
+                "statusCode" => 403,
+                "status" => "ACCESS_DENIED",
+                "message" => "This acces is not permitted"
+            ], 403);
         }
 
         $token = $JWTManager->create($user);

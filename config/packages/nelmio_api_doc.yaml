@@ -34,6 +34,13 @@ nelmio_api_doc:
                             application/json:
                                 schema:
                                     $ref: '#/components/schemas/User'
+                    responses:
+                        '201':
+                            description: Nouvel utilisateur crée
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/userResponseSuccess'
                                     
                                 
 
@@ -66,15 +73,23 @@ nelmio_api_doc:
                         username:
                             type: string
                             default: john_doe@gmail.com
-                        role:
-                            type: string
-                            default: ROLE_USER
                         password:
                             type: string
                             default: my_password
-                        client: 
+
+                userResponseSuccess:
+                    type: object 
+                    properties:
+                        statusCode:
                             type: int 
-                            default: 1
+                            default: 201
+                        status:
+                            type: string 
+                            default: created
+                        message:
+                            type: string
+                            default: user created successfully
+                
             securitySchemes:
                 bearerAuth:
                     type: apiKey

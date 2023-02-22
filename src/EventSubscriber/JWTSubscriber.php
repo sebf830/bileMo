@@ -15,7 +15,6 @@ use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 
 class JWTSubscriber implements EventSubscriberInterface
 {
-    private $em;
     private $userService;
     public const USER_ROUTES = ['app_user_item', 'app_user_delete'];
     public const PUBLIC_ROUTES = ['app.swagger', 'app.swagger_ui', 'app_login'];
@@ -41,7 +40,6 @@ class JWTSubscriber implements EventSubscriberInterface
             $expiration = date('Y-m-d H:i:s', $payload['exp']);
             
             if(new \Datetime('now') > new \Datetime($expiration)){
-                // throw new JWTDecodeFailureException('expired', 'Your token is expired');
                 throw new UnauthorizedHttpException('', 'Your token is expired', null, 401);
             }
         }

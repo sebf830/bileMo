@@ -36,6 +36,9 @@ class ProductController extends AbstractController
     }
 
 
+    /**
+     *  Allow a client to access product list and details
+     */
     #[OA\Response(
         response: 200,
         description: 'returns a collection of products',
@@ -49,6 +52,8 @@ class ProductController extends AbstractController
     #[Route('/', name: 'app_products_collection', methods: ['GET'])]
     public function getCollection(Request $request, ProductRepository $productRepo): JsonResponse
     {
+        $this->denyAccessUnlessGranted('VIEW_PRODUCT');
+
         $params['page'] = (int)$request->get('page') != 0 ?  (int)$request->get('page') : 1;
         $params['per_page'] = (int)$request->get('per_page') != 0 ? (int)$request->get('per_page') : 5;
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
@@ -79,6 +84,10 @@ class ProductController extends AbstractController
         ], 200);
     }
 
+
+    /**
+     *  Allow a client to access a product details
+     */
     #[OA\Response(
         response: 200,
         description: 'Returns a product',
@@ -89,9 +98,17 @@ class ProductController extends AbstractController
         description: 'allow user to get a relation datas (?embed=category)',
         schema: new OA\Schema(type: 'string')
     )]
+    #[OA\Parameter(
+        name: 'productId',
+        in: 'path',
+        description: 'product id',
+        schema: new OA\Schema(type: 'integer')
+    )]
     #[Route('/{productId}', name: 'app_products_item', methods: ['GET'])]
     public function getItem(Request $request, int $productId, ProductRepository $productRepo): JsonResponse
     {
+        $this->denyAccessUnlessGranted('VIEW_PRODUCT');
+
         if(!$productId || $productId == null || intval($productId) < 1){
             return new JsonResponse([
                 'statusCode' => 400,

@@ -50,7 +50,7 @@ class UserController extends AbstractController
 
 
     /**
-     * Get a collection of users, only users linked to a client will be displayed.
+     * Get a collection of users, allow a client to access his own users.
      *
      */
     #[OA\Response(
@@ -64,6 +64,14 @@ class UserController extends AbstractController
     #[OA\Response(
         response: 401,
         description: 'unauthorized',
+    )]
+    #[OA\Response(
+        response: 403,
+        description: 'access denied',
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'not found',
     )]
     #[OA\Parameter(
         name: 'embed',
@@ -134,6 +142,18 @@ class UserController extends AbstractController
             items: new OA\Items(ref: new Model(type: User::class, groups: ['userItem']))
         )
     )]
+    #[OA\Response(
+        response: 401,
+        description: 'unauthorized',
+    )]
+    #[OA\Response(
+        response: 403,
+        description: 'access denied',
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'not found',
+    )]
     #[OA\Parameter(
         name: 'embed',
         in: 'query',
@@ -145,16 +165,16 @@ class UserController extends AbstractController
     {
         $requestUser = $this->em->getRepository(User::class)->find($userId);
 
-        $this->denyAccessUnlessGranted('VIEW_USER', $requestUser);
-
-        // check user param
-        if(!$userId || $userId == null || intval($userId) < 1){
+        // check user 
+        if(!$requestUser){
             return new JsonResponse([
-                'statusCode' => 400,
-                'status' => 'BAD_REQUEST',
-                'message' => "missing or incorrect parameter id"
+                'statusCode' => 404,
+                'status' => 'NOT_FOUND',
+                'message' => "The requested user is not found"
             ], 400);
         }
+
+        $this->denyAccessUnlessGranted('VIEW_USER', $requestUser);
 
         // get current user
         $user = $this->userService->getCurrentUser();
@@ -187,10 +207,11 @@ class UserController extends AbstractController
     }
 
 
-    #[OA\Response(
-        response: 201,
-        description: 'Create a user',
-    )]
+
+    /**
+     * Allow a client to create a new user
+     *
+     */
     #[Route('/', name: 'app_user_create', methods: ['POST'])]
     public function create(Request $request,  UserPasswordHasherInterface $hasher): JsonResponse
     {
@@ -205,7 +226,7 @@ class UserController extends AbstractController
         ->setLastname(isset($content['lastname']) ? $content['lastname'] : "" )
         ->setUsername(isset($content['username']) ? $content['username'] : "" )
         ->setClient($currentUser->getClient())
-        ->setRoles([$content['role']]);
+        ->setRoles(['ROLE_CLIENT_USER']);
         
         $user->setPassword($hasher->hashPassword($user, $content['password']));
         
@@ -236,23 +257,38 @@ class UserController extends AbstractController
     }
 
 
+    /**
+     *  Allow a client to delete a user
+     */
     #[OA\Response(
         response: 200,
         description: 'delete a user',
     )]
+    #[OA\Response(
+        response: 401,
+        description: 'unauthorized',
+    )]
+    #[OA\Response(
+        response: 403,
+        description: 'access denied',
+    )]
+    #[OA\Response(
+        response: 404,
+        description: 'not found',
+    )]
     #[Route('/{userId}', name: 'app_user_delete', methods: ['DELETE'])]
     public function delete(Request $request,  UserPasswordHasherInterface $hasher, int $userId): JsonResponse
     {
-        
-        if(!$userId || $userId == null || intval($userId) < 1){
+        $requestUser = $this->em->getRepository(User::class)->find($userId);
+
+        // check user 
+        if(!$requestUser){
             return new JsonResponse([
-                'statusCode' => 400,
-                'status' => 'BAD_REQUEST',
-                'message' => "missing or incorrect parameter id"
+                'statusCode' => 404,
+                'status' => 'NOT_FOUND',
+                'message' => "The requested user is not found"
             ], 400);
         }
-
-        $requestUser = $this->em->getRepository(User::class)->find($userId);
 
         $this->denyAccessUnlessGranted('DELETE_USER', $requestUser);
 

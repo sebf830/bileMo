@@ -3,7 +3,7 @@
         "firstname": "seb",
         "lastname":"flouvat",
         "username": "admin@gmail.com",
-        "roles": ["ROLE_ADMIN"],
+        "roles": ["ROLE_CLIENT"],
         "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A."
     },
     {

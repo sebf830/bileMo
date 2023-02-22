@@ -60,25 +60,35 @@ class ResponseSubscriber implements EventSubscriberInterface
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $exception = $event->getThrowable()->getPrevious();
+        $exception = $event->getThrowable();
 
-        if($exception instanceof AccessDeniedHttpException || $exception instanceof InsufficientAuthenticationException){
-            $response['statusCode'] = Response::HTTP_FORBIDDEN;
-            $response['status'] = "ACCESS_DENIED";
-            $response['message'] = "Resource access is forbidden";
-        }
-        elseif($exception instanceof UnauthorizedHttpException || $exception instanceof JWTDecodeFailureException){
-            $response['statusCode'] = Response::HTTP_UNAUTHORIZED;
-            $response['status'] = "UNAUTHORIZED";
-            $response['message'] = "unauthorized to access this resource";
+            if($exception instanceof AccessDeniedHttpException || $exception->getPrevious() instanceof InsufficientAuthenticationException){
+                $response['statusCode'] = Response::HTTP_FORBIDDEN;
+                $response['status'] = "ACCESS_DENIED";
+                $code = 403;
+            }
+            elseif($exception instanceof JWTDecodeFailureException){
+                $response['statusCode'] = Response::HTTP_UNAUTHORIZED;
+                $response['status'] = "UNAUTHORIZED";
+                $code = 401;
+            }
+            elseif($exception instanceof UnauthorizedHttpException){
+                $response['statusCode'] = Response::HTTP_UNAUTHORIZED;
+                $response['status'] = "UNAUTHORIZED";
+                $code = 401;
 
-        }else{
-            $response['statusCode'] = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $response['status'] = "INTERNAL_SERVER_ERROR";
-            $reponse['message'] = $exception->getMessage();
-        }
 
-        $jsonResponse = new JsonResponse($response);
+            }else{
+                $response['statusCode'] = Response::HTTP_INTERNAL_SERVER_ERROR;
+                $response['status'] = "INTERNAL_SERVER_ERROR";
+                $code = 500;
+
+            }
+
+        $response['message'] = $exception->getMessage() ? $exception->getMessage() : "no message";
+        
+
+        $jsonResponse = new JsonResponse($response, $code);
         $event->setResponse($jsonResponse);
     }
 
