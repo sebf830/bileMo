@@ -28,6 +28,7 @@ class UserController extends AbstractController
     private EntityValidator $validator;
     private CacheInterface $cache;
     private UserService $userService;
+    private $encoder;
 
     public function __construct(EntityManagerInterface $em, 
     EntityValidator $validator, 
@@ -76,7 +77,7 @@ class UserController extends AbstractController
     #[OA\Parameter(
         name: 'embed',
         in: 'query',
-        description: 'allow user to get a relation datas (?embed=client)',
+        description: 'allow to get a relation datas (?embed=client)',
         schema: new OA\Schema(type: 'string')
     )]
     #[Route('/', name: 'app_users_collection', methods: ['GET'])]
@@ -88,7 +89,7 @@ class UserController extends AbstractController
         $user = $this->userService->getCurrentUser();
 
         // user param
-        $params['client'] = $user->getClient()->getId() ? $user->getClient()->getId() : null;
+        $params['client'] = $user->getId() ? $user->getId() : null;
  
         // query params
         $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
@@ -176,12 +177,15 @@ class UserController extends AbstractController
 
         $this->denyAccessUnlessGranted('VIEW_USER', $requestUser);
 
-        // get current user
+        // Get current user
         $user = $this->userService->getCurrentUser();
-
-        $params['user'] = $userId;
+        // Define current uiser param
+        $params['client'] = $user->getId() ? $user->getId() : null;
+        // Requested user param
+        $params['clientUser'] = $userId;
+        // Embed param
         $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
-        $params['client'] = $user->getClient()->getId() ? $user->getClient()->getId() : null;
+        // Define cache id
         $cacheName = 'user' . $userId .'-'. implode('-', $params['embed']) .'-'. $params['client'];
 
         $user = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
@@ -222,10 +226,14 @@ class UserController extends AbstractController
         $content = json_decode($request->getContent(), true);
         
         $user = (new User())
-        ->setFirstname(isset($content['firstname']) ? $content['firstname'] : "" )
-        ->setLastname(isset($content['lastname']) ? $content['lastname'] : "" )
-        ->setUsername(isset($content['username']) ? $content['username'] : "" )
-        ->setClient($currentUser->getClient())
+        ->setFirstname(isset($content['firstname']) ? $content['firstname'] : null)
+        ->setLastname(isset($content['lastname']) ? $content['lastname'] : null)
+        ->setUsername(isset($content['username']) ? $content['username'] : null)
+        ->setAddress(isset($content['username']) ? $content['username'] : null)
+        ->setZip(isset($content['zip']) ? $content['zip'] : null)
+        ->setCity(isset($content['city']) ? $content['city'] : null)
+        ->setPhone(isset($content['phone']) ? $content['phone'] : null)
+        ->setParent($currentUser)
         ->setRoles(['ROLE_CLIENT_USER']);
         
         $user->setPassword($hasher->hashPassword($user, $content['password']));
@@ -240,6 +248,7 @@ class UserController extends AbstractController
                 'validations' => $this->validator->validate($user)
             ], 400);
         }
+
         $this->em->flush();
 
         return new JsonResponse([
@@ -253,9 +262,8 @@ class UserController extends AbstractController
                 'role'=> $user->getRoles()[0],
                 'creation' => (new \Datetime('now'))->format('Y-m-d H:i:s')
             ]
-        ], 200);
+        ], 201);
     }
-
 
     /**
      *  Allow a client to delete a user
@@ -305,10 +313,6 @@ class UserController extends AbstractController
         $this->em->remove($user);
         $this->em->flush();
 
-        return new JsonResponse([
-            'statusCode' => 200,
-            'status' => 'SUCCESS',
-            'message' => "User successfully deleted"
-        ], 200);
+        return new JsonResponse([], 204);
     }
 }

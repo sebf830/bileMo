@@ -21,6 +21,7 @@ class ProductController extends AbstractController
 {
     private EntityManagerInterface $em;
     private CacheInterface $cache;
+    private $encoder;
 
     public function __construct(EntityManagerInterface $em, CacheInterface $cache, JWTEncoderInterface $encoder) {
         $this->em = $em;

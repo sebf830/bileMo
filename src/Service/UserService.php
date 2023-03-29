@@ -8,6 +8,10 @@ use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 
 class UserService{
 
+    private $request;
+    private $encoder;
+    private $em;
+    
     public function __construct(RequestStack $request, JWTEncoderInterface $encoder, EntityManagerInterface $em){
         $this->request = $request;
         $this->encoder = $encoder;

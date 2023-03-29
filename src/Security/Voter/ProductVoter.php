@@ -34,7 +34,7 @@ class ProductVoter extends Voter
 
         switch ($attribute) {
             case self::VIEW_PRODUCT:
-                
+                // Clients can access this route
                 if(in_array('ROLE_CLIENT', $user->getRoles()))
                     return true;
                 break;

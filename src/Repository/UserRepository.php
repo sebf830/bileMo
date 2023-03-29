@@ -102,10 +102,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('client', $params['client']);
         }
 
-        if(isset($params['user'])){
+        if(isset($params['clientUser'])){
             $qb
             ->andWhere('u.id = :user')
-            ->setParameter('user', $params['user']);
+            ->setParameter('user', $params['clientUser']);
         }
 
         return $qb

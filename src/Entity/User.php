@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use JMS\Serializer\Annotation\Groups;
@@ -46,6 +48,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['userItem'])]
     private array $roles = [];
 
+    #[ORM\Column(length: 255, nullable:true)]
+    #[Groups(['userItem'])]
+    private ?string $address = null;
+
+    #[ORM\Column(length: 255, nullable:true)]
+    #[Groups(['userItem'])]
+    private ?string $zip = null;
+
+    #[ORM\Column(length: 255, nullable:true)]
+    #[Groups(['userItem'])]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 255, nullable:true)]
+    #[Groups(['userItem'])]
+    private ?string $phone = null;
+
     /**
      * @var string The hashed password
      */
@@ -56,9 +74,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         message: "password must contains at least 8 chars & include at least one uppercase and one number.")]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[Groups(['userItem'])]
-    private ?Client $client = null;
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'clientUsers')]
+    private ?self $parent = null;
+
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    private Collection $clientUsers;
+
+
+    public function __construct()
+    {
+        $this->clientUsers = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -154,15 +181,94 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getClient(): ?Client
+    public function getAddress(): ?string
     {
-        return $this->client;
+        return $this->address;
     }
 
-    public function setClient(?Client $client): self
+    public function setAddress(string $address): self
     {
-        $this->client = $client;
+        $this->address = $address;
 
         return $this;
     }
+
+    public function getZip(): ?string
+    {
+        return $this->zip;
+    }
+
+    public function setZip(string $zip): self
+    {
+        $this->zip = $zip;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getClientUsers(): Collection
+    {
+        return $this->clientUsers;
+    }
+
+    public function addClientUser(self $clientUser): self
+    {
+        if (!$this->clientUsers->contains($clientUser)) {
+            $this->clientUsers->add($clientUser);
+            $clientUser->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClientUser(self $clientUser): self
+    {
+        if ($this->clientUsers->removeElement($clientUser)) {
+            // set the owning side to null (unless already changed)
+            if ($clientUser->getParent() === $this) {
+                $clientUser->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

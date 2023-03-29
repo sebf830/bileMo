@@ -37,35 +37,33 @@ class UserVoter extends Voter
 
         switch ($attribute) {
             case self::VIEW_USERS:
-                // admin and client access
-                if(in_array('ROLE_CLIENT', $user->getRoles()))
+                // client access
+                if(in_array('ROLE_CLIENT', $user->getRoles())){
                     return true;
-
+                }
                 break;
+
             case self::VIEW_USER:
                 
                 // clients can see own users
                 if(in_array('ROLE_CLIENT', $user->getRoles())){
-                    return $subject->getClient() == $user->getClient();
+                    return $user->getClientUsers()->contains($subject);
                 }
-                // users can see their own informations
-                else{
-                    return $user->getId() == $subject->getId();
-                }
-
                 break;
+
             case self::CREATE_USER:
                 // admin and client access
-                if(in_array('ROLE_CLIENT', $user->getRoles()))
+                if(in_array('ROLE_CLIENT', $user->getRoles())){
                     return true;
+                }
                 break;
 
             case self::DELETE_USER:
                 
                 // client access
-                if(in_array('ROLE_CLIENT', $user->getRoles()))
-                    return $subject->getClient() == $user->getClient();
-
+                if(in_array('ROLE_CLIENT', $user->getRoles())){
+                    return $user->getClientUsers()->contains($subject);
+                }
                 break;
         }
 
