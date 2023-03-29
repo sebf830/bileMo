@@ -4,7 +4,7 @@
         "lastname":"el boustani",
         "username": "nacimelboustani@gmail.com",
         "roles": ["ROLE_CLIENT"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": null
     },
     {
@@ -12,7 +12,7 @@
         "lastname":"Durant",
         "username": "p.durant@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 1
     },
     {
@@ -20,7 +20,7 @@
         "lastname":"Frichon",
         "username": "yfrichon@gmx.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 1
     },
     {
@@ -28,7 +28,7 @@
         "lastname":"Chombier",
         "username": "pchombier@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 1
     },
     {
@@ -36,7 +36,7 @@
         "lastname":"flouvat",
         "username": "admin@gmail.com",
         "roles": ["ROLE_CLIENT"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": null
     },
     {
@@ -44,7 +44,7 @@
         "lastname":"vallon",
         "username": "vallon@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 5
     },
     {
@@ -52,7 +52,7 @@
         "lastname":"banon",
         "username": "sb@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 5
     },
     {
@@ -60,7 +60,7 @@
         "lastname":"verdier",
         "username": "mverdier@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 5
     },
     {
@@ -68,7 +68,7 @@
         "lastname":"doye",
         "username": "johndoye@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 5
     },
     {
@@ -76,7 +76,7 @@
         "lastname":"bouteille",
         "username": "bouteilleenManu@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 5
     },
     {
@@ -84,7 +84,7 @@
         "lastname":"dumond",
         "username": "magdum@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 5
     },
     {
@@ -92,7 +92,7 @@
         "lastname":"malandrin",
         "username": "sylviedu94@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 5
     },
     {
@@ -100,7 +100,7 @@
         "lastname":"Tran",
         "username": "phuoacnamtran@gmail.com",
         "roles": ["ROLE_CLIENT"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": null 
     },
     {
@@ -108,7 +108,7 @@
         "lastname":"delpras",
         "username": "enricodelpras@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -116,7 +116,7 @@
         "lastname":"desfougeres",
         "username": "fougeres@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -124,7 +124,7 @@
         "lastname":"paul",
         "username": "vinnie@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -132,7 +132,7 @@
         "lastname":"darrel",
         "username": "ddarrell@gmail.com",
         "roles": ["ROLE_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -140,7 +140,7 @@
         "lastname":"froissart",
         "username": "froissartpete@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -148,7 +148,7 @@
         "lastname":"de la tourelle",
         "username": "dddlt@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -156,7 +156,7 @@
         "lastname":"cordier",
         "username": "cordier.severine@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -164,7 +164,7 @@
         "lastname":"del prado",
         "username": "pradoricardo@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -172,7 +172,7 @@
         "lastname":"linux",
         "username": "linux.est.l@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 13
     },
     {
@@ -180,7 +180,7 @@
         "lastname":"jeong",
         "username": "jhj@gmail.com",
         "roles": ["ROLE_CLIENT"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": null
     },
     {
@@ -188,7 +188,7 @@
         "lastname":"tripoux",
         "username": "mtripoux@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -196,7 +196,7 @@
         "lastname":"william",
         "username": "venus.w@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -204,7 +204,7 @@
         "lastname":"doe",
         "username": "jdo@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -212,7 +212,7 @@
         "lastname":"ferrandi",
         "username": "pferrandi@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -220,7 +220,7 @@
         "lastname":"verrati",
         "username": "cverrtai@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -228,7 +228,7 @@
         "lastname":"cholet",
         "username": "jcholet@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -236,7 +236,7 @@
         "lastname":"Vertus",
         "username": "amandinev@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -244,7 +244,7 @@
         "lastname":"renoir",
         "username": "mrenoir34@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -252,7 +252,7 @@
         "lastname":"genepi",
         "username": "mgenepi@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -260,7 +260,7 @@
         "lastname":"marmiton",
         "username": "pfm@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -268,7 +268,7 @@
         "lastname":"deblouze",
         "username": "agadebi@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -276,7 +276,7 @@
         "lastname":"suleux-gatot",
         "username": "cerise556@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     },
     {
@@ -284,7 +284,7 @@
         "lastname":"wagner",
         "username": "mwag@gmail.com",
         "roles": ["ROLE_CLIENT_USER"],
-        "password":"$2y$10$fSnNkfFQYdvYmHP0ser04uN/geNUO0BdWmnDP5zN0ZdlhoGurl4A.",
+        "password":"BilMo123!",
         "parent": 23
     }
 ]
