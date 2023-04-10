@@ -130,8 +130,8 @@ class ProductController extends AbstractController
         if(!$product){
             return new JsonResponse([
                 'statusCode' => 404,
-                'status' => 'USER_NOT_FOUND',
-                'message' => "the request is not found"
+                'status' => 'NOT_FOUND',
+                'message' => "the request item is not found"
             ], 404);
         }
 

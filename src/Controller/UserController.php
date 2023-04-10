@@ -100,7 +100,7 @@ class UserController extends AbstractController
         $params['offset'] = $params['per_page'] * ($params['page'] - 1);
 
         // get users number
-        $usersCount = $this->em->getRepository(User::class)->countApiUsers($params);
+        $usersCount = count($userRepo->getApiUsers($params));
 
         // id cache
         $cacheName = 'users' . $params['page'] . '-'. $params['per_page'].'-'. implode('-', $params['embed']) .'-'. $params['client'];
@@ -112,8 +112,8 @@ class UserController extends AbstractController
         });
 
         $totalPage = $params['per_page'] != null  
-        ? ceil(count($usersCount) / $params['per_page']) 
-        : ceil(count($usersCount) / 5);
+        ? ceil($usersCount / $params['per_page']) 
+        : ceil($usersCount / 5);
 
         // remove user passwords from the response
         for($i = 0; $i < count($users); $i++){
@@ -125,7 +125,7 @@ class UserController extends AbstractController
             'status' => 'SUCCESS',
             'currentPage' => $params['page'] != null ? $params['page'] : 1,
             'itemsPerPage' => $params['per_page'] != null ? $params['per_page']: 5,
-            'count_items' => count($usersCount),
+            'count_items' => $usersCount,
             'count_pages' => $totalPage,
             'datas' => $users
         ], 200);
@@ -162,7 +162,7 @@ class UserController extends AbstractController
         schema: new OA\Schema(type: 'string')
     )]
     #[Route('/{userId}', name: 'app_user_item', methods: ['GET'])]
-    public function getItem(Request $request, int $userId, UserRepository $userRepo, ): JsonResponse
+    public function getItem(Request $request, int $userId, UserRepository $userRepo): JsonResponse
     {
         $requestUser = $this->em->getRepository(User::class)->find($userId);
 
@@ -179,25 +179,23 @@ class UserController extends AbstractController
 
         // Get current user
         $user = $this->userService->getCurrentUser();
-        // Define current uiser param
-        $params['client'] = $user->getId() ? $user->getId() : null;
         // Requested user param
-        $params['clientUser'] = $userId;
+        $params['user'] = $userId;
         // Embed param
         $params['embed'] = $request->get('embed') ? $request->get('embed') : [];
         // Define cache id
-        $cacheName = 'user' . $userId .'-'. implode('-', $params['embed']) .'-'. $params['client'];
+        $cacheName = 'user' . $userId .'-'. implode('-', $params['embed']) .'-'. $params['user'];
 
         $user = $this->cache->get($cacheName, function(ItemInterface $item) use($userRepo, $params){
             $item->expiresAfter(3600);
-            return $userRepo->getApiUsers($params);
+            return $userRepo->getUser($params);
         });
 
         if(!$user){
             return new JsonResponse([
                 'statusCode' => 404,
-                'status' => 'USER_NOT_FOUND',
-                'message' => "the request is not found"
+                'status' => 'NOT_FOUND',
+                'message' => "the requested user is not found"
             ], 404);
         }
 

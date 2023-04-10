@@ -34,7 +34,7 @@
     {
         "firstname": "seb",
         "lastname":"flouvat",
-        "username": "admin@gmail.com",
+        "username": "adminseb@gmail.com",
         "roles": ["ROLE_CLIENT"],
         "password":"BilMo123!",
         "parent": null

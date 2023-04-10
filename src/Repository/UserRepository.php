@@ -56,61 +56,56 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
-    
-    public function countApiUsers(array $params = null)
-    {
-        $qb =  $this->createQueryBuilder('u')
-            ->leftJoin('u.client', 'c')
-           ->where('c.id IS NOT NULL')
-           ->andWhere('u.client IS NOT NULL')
-        ;
 
-        if(isset($params['client'])){
-            $qb
-            ->andWhere('u.client = :client')
-            ->setParameter('client', $params['client']);
-        }
-
-        return $qb
-           ->getQuery()
-           ->getArrayResult();
-    }
 
    public function getApiUsers(array $params = null): array
    {
        $qb = $this->createQueryBuilder('u')
-           ->leftJoin('u.client', 'c')
-           ->where('c.id IS NOT NULL')
-           ->andWhere('u.client IS NOT NULL')
+           ->leftJoin('u.parent', 'p')
+           ->where('p.id IS NOT NULL')
            ->orderBy('u.id', 'DESC');
 
-        if(isset($params['embed'])){
+        if(isset($params['embed']) && !is_null($params['embed'])){
             $this->addSelected($this, $qb, $params['embed']);
         }
 
-        if (isset($params['offset']) && $params['offset'] != null) {
+        if (isset($params['offset']) && !is_null($params['offset'])) {
             $qb->setFirstResult($params['offset']);
         }
 
-        if (isset($params['per_page']) && $params['per_page'] != null) {
+        if (isset($params['per_page']) && !is_null($params['per_page'])) {
             $qb->setMaxResults($params['per_page']);
         }
 
-        if(isset($params['client'])){
+        if(isset($params['clientUser']) && !is_null($params['clientUser'])){
             $qb
-            ->andWhere('u.client = :client')
-            ->setParameter('client', $params['client']);
+            ->andWhere('u.id = :clientUser')
+            ->setParameter('clientUser', $params['clientUser']);
         }
 
-        if(isset($params['clientUser'])){
+        if(isset($params['client']) && !is_null($params['client'])){
             $qb
-            ->andWhere('u.id = :user')
-            ->setParameter('user', $params['clientUser']);
+            ->andWhere('p.id = :parent')
+            ->setParameter('parent', $params['client']);
         }
 
         return $qb
            ->getQuery()
            ->getArrayResult();
+   }
+
+   public function getUser(array $params): array
+   {
+        $qb = $this->createQueryBuilder('u')
+        ->where('u.id = :id')
+        ->setParameter('id', $params['user'])
+        ->orderBy('u.id', 'DESC');
+
+        if(isset($params['embed']) && !is_null($params['embed'])){
+            $this->addSelected($this, $qb, $params['embed']);
+        }
+
+        return $qb->getQuery()->getArrayResult();
    }
 
    private function addSelected($entityClass, QueryBuilder $qb, $params):void 
