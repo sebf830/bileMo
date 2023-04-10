@@ -1,0 +1,6 @@
+La documentation de l'API est accessible via la route '/api/doc'. 
+
+Une fois le projet lancé sur un serveur local ( par exemple : localhost:8000) en executant la commande :
+ 'symfony serve'. (cf readme du projet)
+
+ L'url de la documentation sera : https://localhost:8000/api/doc
