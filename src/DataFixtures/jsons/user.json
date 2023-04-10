@@ -1,8 +1,8 @@
 [
     {
-        "firstname": "Nacim",
-        "lastname":"el boustani",
-        "username": "nacimelboustani@gmail.com",
+        "firstname": "admin",
+        "lastname":"admin",
+        "username": "admin@gmail.com",
         "roles": ["ROLE_CLIENT"],
         "password":"BilMo123!",
         "parent": null

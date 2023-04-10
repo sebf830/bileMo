@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Exception\InsufficientAuthenticationExceptio
 class ResponseSubscriber implements EventSubscriberInterface
 {
     private $em;
+    private $jwtManager;
+    private $encoder;
     public function __construct(JWTEncoderInterface $encoder, JWTTokenManagerInterface $jwtManager, EntityManagerInterface $em)
     {
         $this->jwtManager = $jwtManager;

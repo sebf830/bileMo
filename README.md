@@ -38,23 +38,28 @@
 ```
     symfony console d:f:l --no-interaction
 ```
-9. Démarrer un server symfony sur le port 8000 par defaut, lancez la commande suivante depuis le projet :
+9. Créer une nouvelle pair de clé de sécurité pour la librairie Lexik
+```
+     symfony console lexik:jwt:generate-keypair
+```
+10. Une paire de clé sera générée dans le dossier /config/jwt
+11. Démarrer un server symfony sur le port 8000 par defaut, lancez la commande suivante depuis le projet :
 ```
     symfony serve -d
 ```
-10. L'application est maintenant accessible à cette adresse : 
+12. L'application est maintenant accessible à cette adresse : 
 ```
     http://localhost:8000
 ```
-11. Email de connexion du client : 
+13. Email de connexion du client de test : 
 ```
-    admin@snowtricks.fr
+    admin@gmail.com
 ```
-12. Password de connexion du client : 
+14. Password de connexion du client de test: 
 ```
-    SnowTricks42
+    BilMo123!
 ```
-13. Une documentation de l'API est accessible à cette adresse : 
+15. Une documentation de l'API est accessible à cette adresse : 
 ```
     http://localhost:8000/api/doc
 ```

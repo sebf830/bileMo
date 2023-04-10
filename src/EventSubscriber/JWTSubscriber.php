@@ -16,6 +16,9 @@ use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 class JWTSubscriber implements EventSubscriberInterface
 {
     private $userService;
+    private $jwtManager;
+    private $encoder;
+    private $em;
     public const USER_ROUTES = ['app_user_item', 'app_user_delete'];
     public const PUBLIC_ROUTES = ['app.swagger', 'app.swagger_ui', 'app_login'];
     public function __construct(UserService $userService, JWTEncoderInterface $encoder, JWTTokenManagerInterface $jwtManager, EntityManagerInterface $em)
